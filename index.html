@@ -182,6 +182,49 @@
             });
         }
 
+        function createCard(item, type) {
+        const card = document.createElement('div');
+        card.className = "bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-200 cursor-pointer";
+
+        if (type === 'category') {
+            card.innerHTML = `
+            <h3 class="text-xl font-semibold text-gray-900 mb-2">${item.name}</h3>
+            <p class="text-gray-600">${item.description}</p>
+            `;
+            card.onclick = () => {
+            if (item.id === 'projects') {
+                showProjects();
+            } else {
+                displaySubTopics(item.id);
+            }
+            };
+        } else if (type === 'subTopic') {
+            card.classList.remove("cursor-pointer");
+            card.innerHTML = `
+            <div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">${item.title}</h3>
+                <p class="text-gray-600 mb-4">${item.description}</p>
+            </div>
+            <div class="mt-4 flex flex-col sm:flex-row gap-2">
+                <a href="${item.videoLink}" target="_blank" class="flex-1 text-center bg-blue-600 text-white font-medium py-2 px-4 rounded-full shadow-md hover:bg-blue-700 transition-colors duration-200">
+                Watch Video
+                </a>
+            </div>
+            `;
+        } else if (type === 'project') {
+            card.innerHTML = `
+            <h3 class="text-xl font-semibold text-gray-900 mb-2">${item.name}</h3>
+            <p class="text-gray-600 mb-4">${item.description}</p>
+            <a href="${item.githubLink}" target="_blank" class="inline-block bg-gray-700 text-white font-medium py-2 px-4 rounded-full shadow-md hover:bg-gray-800 transition-colors duration-200">
+                View GitHub
+            </a>
+            `;
+        }
+
+        return card;
+    }
+
+    
 
     </script>
 </body>
