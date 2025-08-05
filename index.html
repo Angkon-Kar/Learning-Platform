@@ -243,6 +243,27 @@
         });
     }
 
+
+    function displayCategories(filteredCategories = contentData.categories) {
+        contentContainer.innerHTML = '';
+        noResultsMessage.classList.add('hidden');
+        backButton.classList.add('hidden');
+        currentCategoryTitle.classList.add('hidden');
+        currentView = 'categories';
+        currentCategoryId = null;
+
+        if (!Array.isArray(filteredCategories) || filteredCategories.length === 0) {
+            noResultsMessage.classList.remove('hidden');
+            return;
+        }
+
+        filteredCategories.forEach(category => {
+            const categoryCard = createCard(category, 'category');
+            contentContainer.appendChild(categoryCard);
+        });
+    }
+
+
     </script>
 </body>
 </html>
