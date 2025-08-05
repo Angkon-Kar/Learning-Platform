@@ -114,6 +114,72 @@
 
     <!-- JavaScript -->
     <script>
+        const contentData = {
+        categories: [
+                {
+                    id: 'basic',
+                    name: 'Basic',
+                    description: 'Learn about code Editor, Any Setup, Some Montivational & Fundamental concepts.',
+                    subTopics: [
+                        { title: "VS Code Instalation", videoLink: "https://youtu.be/bN6DE-4uFNo?si=0AqFK2SP3uffKoOQ", description: "VS Code Download & installation & Set up your coding environment." },
+                        { title: "VS Code Instalation with Example(C/C++)", videoLink: "https://youtu.be/z2jDamkbBF0?si=xS9kQErHaNz-mj9z", description: " VS Code Download & installation & Set up with Examples" },
+                        { title: "GitHub Basics Made Easy: A Fast Beginner's Tutorial!", videoLink: "https://youtu.be/Oaj3RBIoGFc?si=X73o6KPAgfb08bCd", description: "Introduction to version control(Github)." },
+                        { title: "How To Use GitHub For Beginners", videoLink: "https://youtu.be/a9u2yZvsqHA?si=8EHWgR4flLscY5LG", description: "Introduction to version control(Github)." },
+                        { title: "Complete Git and GitHub Tutorial for Beginners", videoLink: "https://youtu.be/Ez8F0nW6S-w?si=cEzTZI6K-mFBE-9z", description: "All about Github." },
+                        { title: "Learn to Push Your Code to GitHub in 10 Minutes (Beginner Video) ", videoLink: "https://youtu.be/ufKRYe8ZPaw?si=FlmQm3twDCa9qx-1", description: "Push Your Code to GitHub" },
+                        { title: "5 Github Hacks that you should know", videoLink: "https://youtu.be/B67X9xtOyuI?si=ID8ZxXM0hxQ1su5R", description: "Github Hacks." },
+                        { title: "How to use the Command Line | Terminal Basics for Beginners", videoLink: "https://youtu.be/5XgBd6rjuDQ?si=DR1rtDj0JfyaFMLY", description: "Basic commands for using the terminal." },
+                        { title: "Command Line Crash Course For Beginners | Terminal Commands", videoLink: "https://youtu.be/uwAqEzhyjtw?si=gixOP5Pnnr7FB5ip", description: "Command Line Crash Course For Beginner | Terminal Commands." }
+                    ]
+                },
+                {
+                    id: 'web-development',
+                    name: 'Web Development',
+                    description: 'Learn the details of frontend and backend development.',
+                    subTopics: [
+                        { title: "Basic HTML and CSS", videoLink: "https://www.youtube.com/watch?v=G3e-C3l3O1o", description: "Learn the fundamentals of building web pages." },
+                        { title: "JavaScript Fundamentals", videoLink: "https://www.youtube.com/watch?v=W6NZK-d5oO0", description: "Basic concepts of JavaScript for dynamic websites." },
+                        { title: "Building Web Apps with React.js", videoLink: "https://www.youtube.com/watch?v=Ke90Tje7VS0", description: "Popular library for modern web applications." },
+                        { title: "Backend Development with Node.js", videoLink: "https://www.youtube.com/watch?v=RLtyhwFtXQA", description: "Build server-side applications using JavaScript." },
+                        { title: "Database Management (SQL)", videoLink: "https://www.youtube.com/watch?v=HXV3zeQKqtg", description: "Learn to use SQL for data storage and management." },
+                        { title: "API Design & Integration", videoLink: "https://www.youtube.com/watch?v=your_api_link", description: "Understand Application Programming Interfaces." }
+                    ]
+                },
+                {
+                    id: 'competitive-programming',
+                    name: 'Competitive Programming',
+                    description: 'Learn algorithms and data structures.',
+                    subTopics: [
+                        { title: "Algorithms Basics", videoLink: "https://www.youtube.com/watch?v=your_algo_link", description: "Techniques for solving programming problems." },
+                        { title: "Introduction to Data Structures", videoLink: "https://www.youtube.com/watch?v=your_datastruct_link", description: "Various methods for storing data." },
+                        { title: "Sorting Algorithms", videoLink: "https://www.youtube.com/watch?v=your_sorting_link", description: "Different methods for sorting data." },
+                        { title: "Graph Theory", videoLink: "https://www.youtube.com/watch?v=your_graph_link", description: "Graph data structures and their applications." }
+                    ]
+                },
+                {
+                    id: 'app-development',
+                    name: 'App Development',
+                    description: 'Learn techniques for building mobile applications.',
+                    subTopics: [
+                        { title: "Android App Development (Kotlin)", videoLink: "https://www.youtube.com/watch?v=F_fP9aJ-q5E", description: "Get started with Android app development using Kotlin." },
+                        { title: "Cross-Platform Apps with Flutter", videoLink: "https://www.youtube.com/watch?v=qj6gD_a3G04", description: "Build iOS and Android apps using the Flutter framework." },
+                        { title: "iOS App Development (Swift)", videoLink: "https://www.youtube.com/watch?v=your_ios_link", description: "Get started with iOS app development using Swift." }
+                    ]
+                },
+                {
+                    id: 'projects',
+                    name: 'Projects',
+                    description: 'Explore various projects with their GitHub links.',
+                    projects: [
+                        { name: "E-commerce Website", githubLink: "https://github.com/your-username/ecommerce-project", description: "A complete e-commerce solution." },
+                        { name: "Chat Application", githubLink: "https://github.com/your-username/chat-app", description: "Real-time chatting application." },
+                        { name: "Task Manager App", githubLink: "https://github.com/your-username/task-manager", description: "A simple app for managing daily tasks." },
+                        { name: "Weather App", githubLink: "https://github.com/your-username/weather-app", description: "An app to display current weather information." }
+                    ]
+                }
+            ]
+        };
+
 
         let currentView = 'categories';
         let currentCategoryId = null;
