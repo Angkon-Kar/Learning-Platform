@@ -154,6 +154,33 @@
         });
         }
 
+        function showProjects(filteredProjects = null) {
+            const projectsCategory = contentData.categories.find(cat => cat.id === 'projects');
+            if (!projectsCategory || !projectsCategory.projects) {
+                displayCategories();
+                return;
+            }
+
+            contentContainer.innerHTML = '';
+            noResultsMessage.classList.add('hidden');
+            backButton.classList.remove('hidden');
+            currentCategoryTitle.classList.remove('hidden');
+            currentCategoryTitle.textContent = projectsCategory.name;
+            currentView = 'projects';
+            currentCategoryId = 'projects';
+
+            const projectsToDisplay = filteredProjects || projectsCategory.projects;
+
+            if (projectsToDisplay.length === 0) {
+                noResultsMessage.classList.remove('hidden');
+                return;
+            }
+
+            projectsToDisplay.forEach(project => {
+                const projectCard = createCard(project, 'project');
+                contentContainer.appendChild(projectCard);
+            });
+        }
 
 
     </script>
