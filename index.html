@@ -295,8 +295,20 @@
         }
     }
 
+    document.addEventListener('DOMContentLoaded', () => {
+        displayCategories();
+        searchInput.addEventListener('keyup', handleSearch);
+        clearSearchBtn.addEventListener('click', () => {
+            searchInput.value = '';
+            handleSearch();
+        });
+        backButton.addEventListener('click', () => {
+            searchInput.value = '';
+            handleSearch();
+            displayCategories();
+        });
+    });
 
-    
 
 
 
