@@ -114,18 +114,21 @@
 
     <!-- JavaScript -->
     <script>
-        const contentData = {
-        categories: [
+
+        let currentView = 'categories';
+        let currentCategoryId = null;
+
+        const contentContainer = document.getElementById('content-container');
+        const searchInput = document.getElementById('searchInput');
+        const clearSearchBtn = document.getElementById('clearSearchBtn');
+        const noResultsMessage = document.getElementById('noResultsMessage');
+        const backButton = document.getElementById('backButton');
+        const currentCategoryTitle = document.getElementById('currentCategoryTitle');
 
 
 
 
 
-              ]
-        };
-
-
-        
     </script>
 </body>
 </html>
