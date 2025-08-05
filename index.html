@@ -114,44 +114,6 @@
 
     <!-- JavaScript -->
     <script>
-        function displaySubTopics(categoryId) {
-            // your existing logic
-            console.log("Show topics for: ", categoryId);
-        }
-
-        function displayCategories() {
-            // your existing logic for main category page
-            console.log("Show main categories");
-        }
-
-        // Handle clicking a card
-        function handleCategoryClick(id) {
-            history.pushState({}, '', `/category/${id}`);
-            displaySubTopics(id);
-        }
-
-        // Handle browser navigation (refresh, back, etc.)
-        window.addEventListener('popstate', () => {
-            const path = window.location.pathname;
-            const parts = path.split('/');
-            if (parts[1] === 'category' && parts[2]) {
-                displaySubTopics(parts[2]);
-            } else {
-                displayCategories();
-            }
-        });
-
-        // Initial load routing
-        window.addEventListener('DOMContentLoaded', () => {
-            const path = window.location.pathname;
-            const parts = path.split('/');
-            if (parts[1] === 'category' && parts[2]) {
-                displaySubTopics(parts[2]);
-            } else {
-                displayCategories();
-            }
-        });
-
         const contentData = {
         categories: [
                 {
