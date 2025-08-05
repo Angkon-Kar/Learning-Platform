@@ -8,7 +8,49 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" type="image/png" href="book.png">
 
-
+      <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+        body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f3f4f6;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        }
+        main {
+        flex-grow: 1;
+        }
+        .btn-primary {
+        background-color: #3b82f6;
+        color: white;
+        font-weight: 500;
+        padding: 0.5rem 1rem;
+        border-radius: 9999px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+            0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        transition: background-color 0.2s ease-in-out,
+            transform 0.2s ease-in-out;
+        }
+        .btn-primary:hover {
+        background-color: #2563eb;
+        transform: translateY(-1px);
+        }
+        .btn-secondary {
+        background-color: #6b7280;
+        color: white;
+        font-weight: 500;
+        padding: 0.5rem 1rem;
+        border-radius: 9999px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+            0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        transition: background-color 0.2s ease-in-out,
+            transform 0.2s ease-in-out;
+        }
+        .btn-secondary:hover {
+        background-color: #4b5563;
+        transform: translateY(-1px);
+        }
+  </style>
 </head>
 <body>
 
