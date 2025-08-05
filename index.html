@@ -8,49 +8,49 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" type="image/png" href="book.png">
 
-      <style>
+    <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
         body {
-        font-family: 'Inter', sans-serif;
-        background-color: #f3f4f6;
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
         main {
-        flex-grow: 1;
+            flex-grow: 1;
         }
         .btn-primary {
-        background-color: #3b82f6;
-        color: white;
-        font-weight: 500;
-        padding: 0.5rem 1rem;
-        border-radius: 9999px;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-            0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        transition: background-color 0.2s ease-in-out,
-            transform 0.2s ease-in-out;
+            background-color: #3b82f6;
+            color: white;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+                0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: background-color 0.2s ease-in-out,
+                transform 0.2s ease-in-out;
         }
         .btn-primary:hover {
-        background-color: #2563eb;
-        transform: translateY(-1px);
+            background-color: #2563eb;
+            transform: translateY(-1px);
         }
         .btn-secondary {
-        background-color: #6b7280;
-        color: white;
-        font-weight: 500;
-        padding: 0.5rem 1rem;
-        border-radius: 9999px;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-            0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        transition: background-color 0.2s ease-in-out,
-            transform 0.2s ease-in-out;
+            background-color: #6b7280;
+            color: white;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+                0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: background-color 0.2s ease-in-out,
+                transform 0.2s ease-in-out;
         }
         .btn-secondary:hover {
-        background-color: #4b5563;
-        transform: translateY(-1px);
+            background-color: #4b5563;
+            transform: translateY(-1px);
         }
-  </style>
+    </style>
 </head>
 <body>
 
@@ -115,7 +115,7 @@
     <!-- JavaScript -->
     <script>
         const contentData = {
-        categories: [
+            categories: [
                 {
                     id: 'basic',
                     name: 'Basic',
@@ -167,10 +167,10 @@
                     ]
                 },
                 {
-                    id: 'projects',
+                    id: 'projects', // This is now treated as a special category
                     name: 'Projects',
                     description: 'Explore various projects with their GitHub links.',
-                    projects: [
+                    projects: [ // This array now directly holds the projects
                         { name: "E-commerce Website", githubLink: "https://github.com/your-username/ecommerce-project", description: "A complete e-commerce solution." },
                         { name: "Chat Application", githubLink: "https://github.com/your-username/chat-app", description: "Real-time chatting application." },
                         { name: "Task Manager App", githubLink: "https://github.com/your-username/task-manager", description: "A simple app for managing daily tasks." },
@@ -180,9 +180,8 @@
             ]
         };
 
-
-        let currentView = 'categories';
-        let currentCategoryId = null;
+        let currentView = 'categories'; // 'categories', 'subTopics', 'projects'
+        let currentCategoryId = null; // Stores ID of current category or 'projects' if in projects view
 
         const contentContainer = document.getElementById('content-container');
         const searchInput = document.getElementById('searchInput');
@@ -191,39 +190,13 @@
         const backButton = document.getElementById('backButton');
         const currentCategoryTitle = document.getElementById('currentCategoryTitle');
 
+        // --- Function Definitions (Hoisted to top for proper scope) ---
 
+        // Function to display sub-topics within a category
         function displaySubTopics(categoryId, filteredSubTopics = null) {
-        const category = contentData.categories.find(cat => cat.id === categoryId);
-        if (!category || !category.subTopics){
-            displayCategories();
-            return;
-        }
-
-        contentContainer.innerHTML = '';
-        noResultsMessage.classList.add('hidden');
-        backButton.classList.remove('hidden');
-        currentCategoryTitle.classList.remove('hidden');
-        currentCategoryTitle.textContent = category.name;
-        currentView = 'subTopics';
-        currentCategoryId = categoryId;
-
-        const topicsToDisplay = filteredSubTopics || category.subTopics;
-
-        if (topicsToDisplay.length === 0) {
-            noResultsMessage.classList.remove('hidden');
-            return;
-        }
-
-        topicsToDisplay.forEach(subTopic => {
-            const subTopicCard = createCard(subTopic, 'subTopic');
-            contentContainer.appendChild(subTopicCard);
-        });
-        }
-
-        function showProjects(filteredProjects = null) {
-            const projectsCategory = contentData.categories.find(cat => cat.id === 'projects');
-            if (!projectsCategory || !projectsCategory.projects) {
-                displayCategories();
+            const category = contentData.categories.find(cat => cat.id === categoryId);
+            if (!category || !category.subTopics){
+                displayCategories(); // Fallback to categories if category or subTopics not found
                 return;
             }
 
@@ -231,9 +204,38 @@
             noResultsMessage.classList.add('hidden');
             backButton.classList.remove('hidden');
             currentCategoryTitle.classList.remove('hidden');
-            currentCategoryTitle.textContent = projectsCategory.name;
-            currentView = 'projects';
-            currentCategoryId = 'projects';
+            currentCategoryTitle.textContent = category.name;
+            currentView = 'subTopics';
+            currentCategoryId = categoryId;
+
+            const topicsToDisplay = filteredSubTopics || category.subTopics;
+
+            if (topicsToDisplay.length === 0) {
+                noResultsMessage.classList.remove('hidden');
+                return;
+            }
+
+            topicsToDisplay.forEach(subTopic => {
+                const subTopicCard = createCard(subTopic, 'subTopic');
+                contentContainer.appendChild(subTopicCard);
+            });
+        }
+
+        // Function to display projects (when 'Projects' category is clicked)
+        function showProjects(filteredProjects = null) {
+            const projectsCategory = contentData.categories.find(cat => cat.id === 'projects');
+            if (!projectsCategory || !projectsCategory.projects) {
+                displayCategories(); // Fallback if projects category not found
+                return;
+            }
+
+            contentContainer.innerHTML = '';
+            noResultsMessage.classList.add('hidden');
+            backButton.classList.remove('hidden');
+            currentCategoryTitle.classList.remove('hidden');
+            currentCategoryTitle.textContent = projectsCategory.name; // Should be 'Projects'
+            currentView = 'projects'; // New view state for projects
+            currentCategoryId = 'projects'; // Set currentCategoryId to 'projects'
 
             const projectsToDisplay = filteredProjects || projectsCategory.projects;
 
@@ -243,141 +245,133 @@
             }
 
             projectsToDisplay.forEach(project => {
-                const projectCard = createCard(project, 'project');
+                const projectCard = createCard(project, 'project'); // Use type 'project'
                 contentContainer.appendChild(projectCard);
             });
         }
 
+        // Function to create cards
+        // This function is now defined BEFORE displayCategories to ensure showSubTopics and showProjects are available
         function createCard(item, type) {
-        const card = document.createElement('div');
-        card.className = "bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-200 cursor-pointer";
+            const card = document.createElement('div');
+            card.className = "bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-200 cursor-pointer";
 
-        if (type === 'category') {
-            card.innerHTML = `
-            <h3 class="text-xl font-semibold text-gray-900 mb-2">${item.name}</h3>
-            <p class="text-gray-600">${item.description}</p>
-            `;
-            card.onclick = () => {
-            if (item.id === 'projects') {
-                showProjects();
-            } else {
-                displaySubTopics(item.id);
+            if (type === 'category') {
+                if (item.id === 'projects') { // Special handling for the 'Projects' category
+                    card.innerHTML = `
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">${item.name}</h3>
+                        <p class="text-gray-600">${item.description}</p>
+                    `;
+                    card.onclick = () => showProjects(); // Call showProjects when 'Projects' category is clicked
+                } else {
+                    card.innerHTML = `
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">${item.name}</h3>
+                        <p class="text-gray-600">${item.description}</p>
+                    `;
+                    card.onclick = () => displaySubTopics(item.id); // Call displaySubTopics for other categories
+                }
+            } else if (type === 'subTopic') {
+                card.classList.remove("cursor-pointer"); // Sub-topic cards are not clickable to navigate further
+                card.innerHTML = `
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">${item.title}</h3>
+                        <p class="text-gray-600 mb-4">${item.description}</p>
+                    </div>
+                    <div class="mt-4 flex flex-col sm:flex-row gap-2">
+                        <a href="${item.videoLink}" target="_blank" class="flex-1 text-center bg-blue-600 text-white font-medium py-2 px-4 rounded-full shadow-md hover:bg-blue-700 transition-colors duration-200">
+                            Watch Video
+                        </a>
+                    </div>
+                `;
+            } else if (type === 'project') { // This type is now used for individual projects within the 'Projects' category
+                card.classList.remove("cursor-pointer"); // Project cards are not clickable to navigate further
+                card.innerHTML = `
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">${item.name}</h3>
+                    <p class="text-gray-600 mb-4">${item.description}</p>
+                    <a href="${item.githubLink}" target="_blank" class="inline-block bg-gray-700 text-white font-medium py-2 px-4 rounded-full shadow-md hover:bg-gray-800 transition-colors duration-200">
+                        View GitHub
+                    </a>
+                `;
             }
-            };
-        } else if (type === 'subTopic') {
-            card.classList.remove("cursor-pointer");
-            card.innerHTML = `
-            <div>
-                <h3 class="text-xl font-semibold text-gray-900 mb-2">${item.title}</h3>
-                <p class="text-gray-600 mb-4">${item.description}</p>
-            </div>
-            <div class="mt-4 flex flex-col sm:flex-row gap-2">
-                <a href="${item.videoLink}" target="_blank" class="flex-1 text-center bg-blue-600 text-white font-medium py-2 px-4 rounded-full shadow-md hover:bg-blue-700 transition-colors duration-200">
-                Watch Video
-                </a>
-            </div>
-            `;
-        } else if (type === 'project') {
-            card.innerHTML = `
-            <h3 class="text-xl font-semibold text-gray-900 mb-2">${item.name}</h3>
-            <p class="text-gray-600 mb-4">${item.description}</p>
-            <a href="${item.githubLink}" target="_blank" class="inline-block bg-gray-700 text-white font-medium py-2 px-4 rounded-full shadow-md hover:bg-gray-800 transition-colors duration-200">
-                View GitHub
-            </a>
-            `;
+            return card;
         }
 
-        return card;
-    }
-    
-    function displayCategories(filteredCategories = contentData.categories) {
-        contentContainer.innerHTML = '';
-        noResultsMessage.classList.add('hidden');
-        backButton.classList.add('hidden');
-        currentCategoryTitle.classList.add('hidden');
-        currentView = 'categories';
-        currentCategoryId = null;
+        // Function to display categories (initial view)
+        // This function is now defined after createCard, showSubTopics, and showProjects
+        // to ensure all dependencies are met.
+        function displayCategories(filteredCategories = contentData.categories) {
+            contentContainer.innerHTML = '';
+            noResultsMessage.classList.add('hidden');
+            backButton.classList.add('hidden');
+            currentCategoryTitle.classList.add('hidden');
+            currentView = 'categories';
+            currentCategoryId = null;
 
-        if (!Array.isArray(filteredCategories) || filteredCategories.length === 0) {
-            noResultsMessage.classList.remove('hidden');
-            return;
-        }
-
-        filteredCategories.forEach(category => {
-            const categoryCard = createCard(category, 'category');
-            contentContainer.appendChild(categoryCard);
-        });
-    }
-
-
-    function displayCategories(filteredCategories = contentData.categories) {
-        contentContainer.innerHTML = '';
-        noResultsMessage.classList.add('hidden');
-        backButton.classList.add('hidden');
-        currentCategoryTitle.classList.add('hidden');
-        currentView = 'categories';
-        currentCategoryId = null;
-
-        if (!Array.isArray(filteredCategories) || filteredCategories.length === 0) {
-            noResultsMessage.classList.remove('hidden');
-            return;
-        }
-
-        filteredCategories.forEach(category => {
-            const categoryCard = createCard(category, 'category');
-            contentContainer.appendChild(categoryCard);
-        });
-    }
-
-
-    function handleSearch() {
-        const searchTerm = searchInput.value.toLowerCase();
-        clearSearchBtn.style.display = searchTerm.length > 0 ? 'block' : 'none';
-
-        if (currentView === 'categories') {
-            const filteredCategories = contentData.categories.filter(cat =>
-            cat.name.toLowerCase().includes(searchTerm) ||
-            cat.description.toLowerCase().includes(searchTerm)
-            );
-            displayCategories(filteredCategories);
-        } else if (currentView === 'subTopics' && currentCategoryId) {
-            const category = contentData.categories.find(cat => cat.id === currentCategoryId);
-            if (category && category.subTopics) {
-            const filteredSubTopics = category.subTopics.filter(sub =>
-                sub.title.toLowerCase().includes(searchTerm) ||
-                sub.description.toLowerCase().includes(searchTerm)
-            );
-            displaySubTopics(currentCategoryId, filteredSubTopics);
+            if (!Array.isArray(filteredCategories) || filteredCategories.length === 0) {
+                noResultsMessage.classList.remove('hidden');
+                return;
             }
-        } else if (currentView === 'projects') {
-            const projectsCategory = contentData.categories.find(cat => cat.id === 'projects');
-            if (projectsCategory && projectsCategory.projects) {
-            const filteredProjects = projectsCategory.projects.filter(proj =>
-                proj.name.toLowerCase().includes(searchTerm) ||
-                proj.description.toLowerCase().includes(searchTerm)
-            );
-            showProjects(filteredProjects);
+
+            filteredCategories.forEach(category => {
+                const categoryCard = createCard(category, 'category');
+                contentContainer.appendChild(categoryCard);
+            });
+        }
+
+        // Search function
+        function handleSearch() {
+            const searchTerm = searchInput.value.toLowerCase();
+            clearSearchBtn.style.display = searchTerm.length > 0 ? 'block' : 'none';
+
+            if (currentView === 'categories') {
+                const filteredCategories = contentData.categories.filter(cat =>
+                    cat.name.toLowerCase().includes(searchTerm) ||
+                    cat.description.toLowerCase().includes(searchTerm)
+                );
+                displayCategories(filteredCategories);
+            } else if (currentView === 'subTopics' && currentCategoryId) {
+                const category = contentData.categories.find(cat => cat.id === currentCategoryId);
+                if (category && category.subTopics) {
+                    const filteredSubTopics = category.subTopics.filter(sub =>
+                        sub.title.toLowerCase().includes(searchTerm) ||
+                        sub.description.toLowerCase().includes(searchTerm)
+                    );
+                    displaySubTopics(currentCategoryId, filteredSubTopics);
+                }
+            } else if (currentView === 'projects') { // Handle search within projects view
+                const projectsCategory = contentData.categories.find(cat => cat.id === 'projects');
+                if (projectsCategory && projectsCategory.projects) {
+                    const filteredProjects = projectsCategory.projects.filter(proj =>
+                        proj.name.toLowerCase().includes(searchTerm) ||
+                        proj.description.toLowerCase().includes(searchTerm)
+                    );
+                    showProjects(filteredProjects); // Pass filtered projects to showProjects
+                }
             }
         }
-    }
 
-    document.addEventListener('DOMContentLoaded', () => {
-        displayCategories();
-        searchInput.addEventListener('keyup', handleSearch);
-        clearSearchBtn.addEventListener('click', () => {
-            searchInput.value = '';
-            handleSearch();
+        // --- Initialization ---
+        document.addEventListener('DOMContentLoaded', () => {
+            displayCategories(); // Initial display of categories
+            searchInput.addEventListener('keyup', handleSearch);
+
+            clearSearchBtn.addEventListener('click', () => {
+                searchInput.value = '';
+                handleSearch(); // Re-render content based on current view with empty search
+            });
+
+            backButton.addEventListener('click', () => {
+                searchInput.value = ''; // Clear search when going back
+                handleSearch(); // Clear search results
+
+                // Logic to go back to the previous view
+                if (currentView === 'subTopics' || currentView === 'projects') {
+                    displayCategories(); // Go back to main categories from sub-topics or projects
+                }
+            });
         });
-        backButton.addEventListener('click', () => {
-            searchInput.value = '';
-            handleSearch();
-            displayCategories();
-        });
-    });
 
-
-
-
+        // No need for popstate listener as URL routing is removed
     </script>
 </body>
 </html>
