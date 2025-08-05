@@ -126,6 +126,33 @@
         const currentCategoryTitle = document.getElementById('currentCategoryTitle');
 
 
+        function displaySubTopics(categoryId, filteredSubTopics = null) {
+        const category = contentData.categories.find(cat => cat.id === categoryId);
+        if (!category || !category.subTopics){
+            displayCategories();
+            return;
+        }
+
+        contentContainer.innerHTML = '';
+        noResultsMessage.classList.add('hidden');
+        backButton.classList.remove('hidden');
+        currentCategoryTitle.classList.remove('hidden');
+        currentCategoryTitle.textContent = category.name;
+        currentView = 'subTopics';
+        currentCategoryId = categoryId;
+
+        const topicsToDisplay = filteredSubTopics || category.subTopics;
+
+        if (topicsToDisplay.length === 0) {
+            noResultsMessage.classList.remove('hidden');
+            return;
+        }
+
+        topicsToDisplay.forEach(subTopic => {
+            const subTopicCard = createCard(subTopic, 'subTopic');
+            contentContainer.appendChild(subTopicCard);
+        });
+        }
 
 
 
