@@ -264,6 +264,42 @@
     }
 
 
+    function handleSearch() {
+        const searchTerm = searchInput.value.toLowerCase();
+        clearSearchBtn.style.display = searchTerm.length > 0 ? 'block' : 'none';
+
+        if (currentView === 'categories') {
+            const filteredCategories = contentData.categories.filter(cat =>
+            cat.name.toLowerCase().includes(searchTerm) ||
+            cat.description.toLowerCase().includes(searchTerm)
+            );
+            displayCategories(filteredCategories);
+        } else if (currentView === 'subTopics' && currentCategoryId) {
+            const category = contentData.categories.find(cat => cat.id === currentCategoryId);
+            if (category && category.subTopics) {
+            const filteredSubTopics = category.subTopics.filter(sub =>
+                sub.title.toLowerCase().includes(searchTerm) ||
+                sub.description.toLowerCase().includes(searchTerm)
+            );
+            displaySubTopics(currentCategoryId, filteredSubTopics);
+            }
+        } else if (currentView === 'projects') {
+            const projectsCategory = contentData.categories.find(cat => cat.id === 'projects');
+            if (projectsCategory && projectsCategory.projects) {
+            const filteredProjects = projectsCategory.projects.filter(proj =>
+                proj.name.toLowerCase().includes(searchTerm) ||
+                proj.description.toLowerCase().includes(searchTerm)
+            );
+            showProjects(filteredProjects);
+            }
+        }
+    }
+
+
+    
+
+
+
     </script>
 </body>
 </html>
