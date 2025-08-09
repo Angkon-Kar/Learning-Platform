@@ -139,7 +139,9 @@
                 //     description: 'Learn the details of frontend and backend development.',
                 //     subTopics: [
                 //         { title: "Basic HTML and CSS", videoLink: "https://www.youtube.com/watch?v=G3e-C3l3O1o", description: "Learn the fundamentals of building web pages." },
+                //         { title: "CSS Grid Tutorial", websiteLink: "https://css-tricks.com/snippets/css/complete-guide-grid/", description: "A comprehensive guide to CSS Grid." },
                 //         { title: "JavaScript Fundamentals", videoLink: "https://www.youtube.com/watch?v=W6NZK-d5oO0", description: "Basic concepts of JavaScript for dynamic websites." },
+                //         { title: "JavaScript Hoisting Explained", pdfLink: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf", description: "A PDF document explaining JavaScript Hoisting.", websiteLink: "https://www.javascript.com/hoisting-explained" }, // Example with both PDF and Website
                 //         { title: "Building Web Apps with React.js", videoLink: "https://www.youtube.com/watch?v=Ke90Tje7VS0", description: "Popular library for modern web applications." },
                 //         { title: "Backend Development with Node.js", videoLink: "https://www.youtube.com/watch?v=RLtyhwFtXQA", description: "Build server-side applications using JavaScript." },
                 //         { title: "Database Management (SQL)", videoLink: "https://www.youtube.com/watch?v=HXV3zeQKqtg", description: "Learn to use SQL for data storage and management." },
@@ -197,7 +199,8 @@
         function displaySubTopics(categoryId, filteredSubTopics = null) {
             const category = contentData.categories.find(cat => cat.id === categoryId);
             if (!category || !category.subTopics){
-                displayCategories(); // Fallback to categories if category or subTopics not found
+                // If category or subTopics not found, return to the default view (categories)
+                window.location.hash = ''; // Clear hash to go to categories view
                 return;
             }
 
@@ -226,7 +229,8 @@
         function showProjects(filteredProjects = null) {
             const projectsCategory = contentData.categories.find(cat => cat.id === 'projects');
             if (!projectsCategory || !projectsCategory.projects) {
-                displayCategories(); // Fallback if projects category not found
+                // If projects category not found, return to the default view (categories)
+                window.location.hash = ''; // Clear hash to go to categories view
                 return;
             }
 
@@ -252,7 +256,6 @@
         }
 
         // Function to create cards
-        // This function is now defined BEFORE displayCategories to ensure showSubTopics and showProjects are available
         function createCard(item, type) {
             const card = document.createElement('div');
             card.className = "bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-200";
@@ -315,8 +318,6 @@
         }
 
         // Function to display categories (initial view)
-        // This function is now defined after createCard, showSubTopics, and showProjects
-        // to ensure all dependencies are met.
         function displayCategories(filteredCategories = contentData.categories) {
             contentContainer.innerHTML = '';
             noResultsMessage.classList.add('hidden');
@@ -336,7 +337,7 @@
             });
         }
 
-        // Search function
+        // Function to handle search logic
         function handleSearch() {
             const searchTerm = searchInput.value.toLowerCase();
             clearSearchBtn.style.display = searchTerm.length > 0 ? 'block' : 'none';
@@ -400,7 +401,7 @@
 
         // --- Initialization ---
         document.addEventListener('DOMContentLoaded', () => {
-            displayCategories(); // Initial display of categories
+            route(); // Handle initial route based on URL hash
             searchInput.addEventListener('keyup', handleSearch);
 
             clearSearchBtn.addEventListener('click', () => {
@@ -412,14 +413,22 @@
                 searchInput.value = ''; // Clear search when going back
                 handleSearch(); // Clear search results
 
-                // Logic to go back to the previous view
+                // If currently showing sub-topics or projects, go back to main categories
+                // This will trigger a hashchange event to '#'
                 if (currentView === 'subTopics' || currentView === 'projects') {
-                    displayCategories(); // Go back to main categories from sub-topics or projects
+                     window.location.hash = ''; // Set hash to empty to go back to categories
+                } else {
+                    // If already at main categories or some other state, handle as browser back
+                    // For Canvas, pushing an empty state is generally the safest way to "go back"
+                    // without causing SecurityError
+                    window.history.pushState(null, '', window.location.pathname);
+                    route(); // Re-evaluate the route, which should now be empty
                 }
             });
         });
 
-        // No need for popstate listener as URL routing is removed
+        // Listen for hash changes (e.g., when user uses browser back/forward buttons)
+        window.addEventListener('hashchange', route);
     </script>
 </body>
 </html>
