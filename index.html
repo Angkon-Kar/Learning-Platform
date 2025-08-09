@@ -255,33 +255,50 @@
         // This function is now defined BEFORE displayCategories to ensure showSubTopics and showProjects are available
         function createCard(item, type) {
             const card = document.createElement('div');
-            card.className = "bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-200 cursor-pointer";
+            card.className = "bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-200";
 
             if (type === 'category') {
-                if (item.id === 'projects') { // Special handling for the 'Projects' category
-                    card.innerHTML = `
-                        <h3 class="text-xl font-semibold text-gray-900 mb-2">${item.name}</h3>
-                        <p class="text-gray-600">${item.description}</p>
-                    `;
-                    card.onclick = () => showProjects(); // Call showProjects when 'Projects' category is clicked
-                } else {
-                    card.innerHTML = `
-                        <h3 class="text-xl font-semibold text-gray-900 mb-2">${item.name}</h3>
-                        <p class="text-gray-600">${item.description}</p>
-                    `;
-                    card.onclick = () => displaySubTopics(item.id); // Call displaySubTopics for other categories
-                }
+                card.classList.add("cursor-pointer"); // Category cards are clickable
+                card.innerHTML = `
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">${item.name}</h3>
+                    <p class="text-gray-600">${item.description}</p>
+                `;
+                card.onclick = () => {
+                    // When a category card is clicked, update the hash
+                    window.location.hash = item.id;
+                };
             } else if (type === 'subTopic') {
-                card.classList.remove("cursor-pointer"); // Sub-topic cards are not clickable to navigate further
+                // Sub-topic cards can have multiple links, so we'll build the buttons dynamically
+                let buttonsHtml = '';
+                if (item.videoLink) {
+                    buttonsHtml += `
+                        <a href="${item.videoLink}" target="_blank" class="flex-1 text-center bg-blue-600 text-white font-medium py-2 px-4 rounded-full shadow-md hover:bg-blue-700 transition-colors duration-200">
+                            Watch Video
+                        </a>
+                    `;
+                }
+                if (item.pdfLink) {
+                    buttonsHtml += `
+                        <a href="${item.pdfLink}" target="_blank" class="flex-1 text-center bg-purple-600 text-white font-medium py-2 px-4 rounded-full shadow-md hover:bg-purple-700 transition-colors duration-200">
+                            See PDF
+                        </a>
+                    `;
+                }
+                if (item.websiteLink) {
+                    buttonsHtml += `
+                        <a href="${item.websiteLink}" target="_blank" class="flex-1 text-center bg-green-600 text-white font-medium py-2 px-4 rounded-full shadow-md hover:bg-green-700 transition-colors duration-200">
+                            Visit Website
+                        </a>
+                    `;
+                }
+
                 card.innerHTML = `
                     <div>
                         <h3 class="text-xl font-semibold text-gray-900 mb-2">${item.title}</h3>
                         <p class="text-gray-600 mb-4">${item.description}</p>
                     </div>
                     <div class="mt-4 flex flex-col sm:flex-row gap-2">
-                        <a href="${item.videoLink}" target="_blank" class="flex-1 text-center bg-blue-600 text-white font-medium py-2 px-4 rounded-full shadow-md hover:bg-blue-700 transition-colors duration-200">
-                            Watch Video
-                        </a>
+                        ${buttonsHtml}
                     </div>
                 `;
             } else if (type === 'project') { // This type is now used for individual projects within the 'Projects' category
