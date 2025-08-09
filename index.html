@@ -368,6 +368,36 @@
             }
         }
 
+        // --- Routing Function ---
+        function route() {
+            const hash = window.location.hash.substring(1); // Remove '#'
+            const parts = hash.split('/'); // Split by '/' for potential sub-paths (not used extensively yet)
+
+            if (parts.length > 0 && parts[0]) {
+                const categoryId = parts[0];
+                const category = contentData.categories.find(cat => cat.id === categoryId);
+
+                if (category) {
+                    if (categoryId === 'projects') {
+                        showProjects();
+                    } else if (category.subTopics) {
+                        displaySubTopics(categoryId);
+                    } else {
+                        // Unknown category or no subTopics/projects, fall back to categories
+                        window.location.hash = '';
+                        displayCategories();
+                    }
+                } else {
+                    // Hash corresponds to an unknown category, fallback to categories
+                    window.location.hash = '';
+                    displayCategories();
+                }
+            } else {
+                // No hash or empty hash, display main categories
+                displayCategories();
+            }
+        }
+
         // --- Initialization ---
         document.addEventListener('DOMContentLoaded', () => {
             displayCategories(); // Initial display of categories
