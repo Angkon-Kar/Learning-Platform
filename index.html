@@ -233,7 +233,7 @@
             ]
         };
 
-        let currentView = 'categories'; // 'categories', 'subTopics', 'projects'
+        let currentView = 'categories'; // 'categories', 'subTopics', 'projects', 'meme-motivation'
         let currentCategoryId = null; // Stores ID of current category or 'projects' if in projects view
 
         const contentContainer = document.getElementById('content-container');
@@ -321,15 +321,16 @@
                     window.location.hash = item.id;
                 };
             } else if (type === 'subTopic') {
+                // If an image link exists, add the image
+                let imageHtml = '';
+                if (item.imageLink) {
+                    imageHtml = `<div class="mb-4">
+                                    <img src="${item.imageLink}" alt="${item.title}" class="rounded-lg w-full h-40 object-cover shadow-md">
+                                </div>`;
+                }
+
                 // Sub-topic cards can have multiple links, so we'll build the buttons dynamically
                 let buttonsHtml = '';
-                if (item.githubLink) {
-                    buttonsHtml += `
-                        <a href="${item.githubLink}" target="_blank" class="flex-1 text-center bg-gray-700 text-white font-medium py-2 px-4 rounded-full shadow-md hover:bg-gray-800 transition-colors duration-200">
-                            View GitHub
-                        </a>
-                    `;
-                }
                 if (item.videoLink) {
                     buttonsHtml += `
                         <a href="${item.videoLink}" target="_blank" class="flex-1 text-center bg-blue-600 text-white font-medium py-2 px-4 rounded-full shadow-md hover:bg-blue-700 transition-colors duration-200">
@@ -351,8 +352,18 @@
                         </a>
                     `;
                 }
+                // Check for githubLink in subTopic context and add a button if present
+                if (item.githubLink) {
+                    buttonsHtml += `
+                        <a href="${item.githubLink}" target="_blank" class="flex-1 text-center bg-gray-700 text-white font-medium py-2 px-4 rounded-full shadow-md hover:bg-gray-800 transition-colors duration-200">
+                            View GitHub
+                        </a>
+                    `;
+                }
+
 
                 card.innerHTML = `
+                    ${imageHtml}
                     <div>
                         <h3 class="text-xl font-semibold text-gray-900 mb-2">${item.title}</h3>
                         <p class="text-gray-600 mb-4">${item.description}</p>
