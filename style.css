@@ -1,6 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+/* style.css */
+
+/* Using Poppins font imported in index.html */
 body {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Poppins', sans-serif;
     background-color: #f3f4f6;
     min-height: 100vh;
     display: flex;
@@ -9,11 +11,17 @@ body {
 main {
     flex-grow: 1;
 }
+
+/* Note: Since Tailwind is included via CDN, 
+   many of the classes below are redundant, but kept for clarity 
+   if you decide to use a custom build process later. */
+
+/* Primary Button is not used in the final UX but kept for style reference */
 .btn-primary {
     background-color: #3b82f6;
     color: white;
-    font-weight: 500;
-    padding: 0.5rem 1rem;
+    font-weight: 600; /* Increased weight for Poppins */
+    padding: 0.75rem 1.5rem;
     border-radius: 9999px;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
         0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -22,12 +30,15 @@ main {
 }
 .btn-primary:hover {
     background-color: #2563eb;
-    transform: translateY(-1px);
+    transform: translateY(-2px); /* Stronger hover effect */
+    box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3), 0 4px 6px -2px rgba(37, 99, 235, 0.1);
 }
+
+/* Secondary Button is largely replaced by Tailwind classes but kept for reference */
 .btn-secondary {
     background-color: #6b7280;
     color: white;
-    font-weight: 500;
+    font-weight: 600;
     padding: 0.5rem 1rem;
     border-radius: 9999px;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),

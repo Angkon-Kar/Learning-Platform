@@ -1,14 +1,16 @@
 // 1. IMPORT your data
-import { contentData } from './skill/categories.js';
+import { contentData } from './skill/categories.js'; 
 
 // 2. DECLARE variables in the top-level scope
-// We define them here with 'let' so all functions can access them
 let contentContainer;
 let searchInput;
 let clearSearchBtn;
 let noResultsMessage;
 let backButton;
 let currentCategoryTitle;
+let dynamicNavBar;
+let heroSection;
+let categorySectionTitle; // NEW: Section title for categories
 
 let currentView = 'categories';
 let currentCategoryId = null;
@@ -24,14 +26,20 @@ function displaySubTopics(categoryId, filteredSubTopics = null) {
     }
 
     contentContainer.innerHTML = '';
+    
+    // UX Logic
+    heroSection.classList.add('hidden');
+    dynamicNavBar.classList.remove('hidden');
+    categorySectionTitle.classList.add('hidden'); // Hide category title
+    
     noResultsMessage.classList.add('hidden');
-    backButton.classList.remove('hidden');
-    currentCategoryTitle.classList.remove('hidden');
     currentCategoryTitle.textContent = category.name;
     currentView = 'subTopics';
     currentCategoryId = categoryId;
 
     const topicsToDisplay = filteredSubTopics || category.subTopics;
+    
+    // ... rest of the function remains the same ...
 
     if (topicsToDisplay.length === 0) {
         noResultsMessage.classList.remove('hidden');
@@ -44,7 +52,7 @@ function displaySubTopics(categoryId, filteredSubTopics = null) {
     });
 }
 
-// Function to display projects (when 'Projects' category is clicked)
+// Function to display projects (remains similar, updating visibility)
 function showProjects(filteredProjects = null) {
     const projectsCategory = contentData.categories.find(cat => cat.id === 'projects');
     if (!projectsCategory || !projectsCategory.projects) {
@@ -53,9 +61,13 @@ function showProjects(filteredProjects = null) {
     }
 
     contentContainer.innerHTML = '';
+    
+    // UX Logic
+    heroSection.classList.add('hidden');
+    dynamicNavBar.classList.remove('hidden');
+    categorySectionTitle.classList.add('hidden'); // Hide category title
+    
     noResultsMessage.classList.add('hidden');
-    backButton.classList.remove('hidden');
-    currentCategoryTitle.classList.remove('hidden');
     currentCategoryTitle.textContent = projectsCategory.name;
     currentView = 'projects';
     currentCategoryId = 'projects';
@@ -73,10 +85,10 @@ function showProjects(filteredProjects = null) {
     });
 }
 
-// Function to create cards
+// Function to create cards (remains the same as the previous version)
 function createCard(item, type) {
+    // ... (omitted for brevity, as it's the same as the previous full version)
     const card = document.createElement('div');
-    // UPDATED CARD STYLING for better aesthetics
     card.className = "bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border-l-4 border-gray-200 hover:border-blue-500";
 
     if (type === 'category') {
@@ -89,54 +101,44 @@ function createCard(item, type) {
             window.location.hash = item.id;
         };
     } else if (type === 'subTopic') {
+        // ... (subTopic card content logic)
         let imageHtml = '';
         if (item.imageLink) {
             imageHtml = `<div class="mb-4">
-                            <img src="${item.imageLink}" alt="${item.title}" class="rounded-lg w-full h-40 object-cover shadow-md">
+                            <img src="${item.imageLink}" alt="${item.title}" class="rounded-lg w-full h-40 object-cover shadow-md bg-gray-100">
                         </div>`;
         }
-
+        
         let buttonsHtml = '';
-        if (item.videoLink) {
-            buttonsHtml += `
-                <a href="${item.videoLink}" target="_blank" class="flex-1 text-center bg-blue-600 text-white font-medium py-2 px-4 rounded-full shadow-md hover:bg-blue-700 transition-colors duration-200">
-                    Watch Video
-                </a>
-            `;
-        }
-        if (item.pdfLink) {
-            buttonsHtml += `
-                <a href="${item.pdfLink}" target="_blank" class="flex-1 text-center bg-purple-600 text-white font-medium py-2 px-4 rounded-full shadow-md hover:bg-purple-700 transition-colors duration-200">
-                    See PDF
-                </a>
-            `;
-        }
-        if (item.websiteLink) {
-            buttonsHtml += `
-                <a href="${item.websiteLink}" target="_blank" class="flex-1 text-center bg-green-600 text-white font-medium py-2 px-4 rounded-full shadow-md hover:bg-green-700 transition-colors duration-200">
-                    Visit Website
-                </a>
-            `;
-        }
-        if (item.githubLink) {
-            buttonsHtml += `
-                <a href="${item.githubLink}" target="_blank" class="flex-1 text-center bg-gray-700 text-white font-medium py-2 px-4 rounded-full shadow-md hover:bg-gray-800 transition-colors duration-200">
-                    View GitHub
-                </a>
-            `;
-        }
+        const links = [
+            { link: item.videoLink, text: 'Watch Video', color: 'bg-blue-600 hover:bg-blue-700' },
+            { link: item.pdfLink, text: 'See PDF', color: 'bg-purple-600 hover:bg-purple-700' },
+            { link: item.websiteLink, text: 'Visit Website', color: 'bg-green-600 hover:bg-green-700' },
+            { link: item.githubLink, text: 'View GitHub', color: 'bg-gray-700 hover:bg-gray-800' },
+        ];
 
+        links.forEach(btn => {
+            if (btn.link) {
+                buttonsHtml += `
+                    <a href="${btn.link}" target="_blank" class="flex-1 text-center ${btn.color} text-white font-medium py-2 px-4 rounded-full shadow-md transition-colors duration-200 text-sm">
+                        ${btn.text}
+                    </a>
+                `;
+            }
+        });
+        
         card.innerHTML = `
             ${imageHtml}
             <div>
                 <h3 class="text-xl font-semibold text-gray-900 mb-2">${item.title}</h3>
                 <p class="text-gray-600 mb-4">${item.description}</p>
             </div>
-            <div class="mt-4 flex flex-col sm:flex-row gap-2">
+            <div class="mt-4 flex flex-wrap gap-2">
                 ${buttonsHtml}
             </div>
         `;
     } else if (type === 'project') {
+        // ... (project card content logic)
         card.classList.remove("cursor-pointer");
         card.innerHTML = `
             <h3 class="text-xl font-semibold text-gray-900 mb-2">${item.name}</h3>
@@ -152,14 +154,20 @@ function createCard(item, type) {
 // Function to display categories (initial view)
 function displayCategories(filteredCategories = contentData.categories) {
     contentContainer.innerHTML = '';
+    
+    // UX Logic: Show Hero on homepage, Show category title
+    dynamicNavBar.classList.add('hidden');
+    heroSection.classList.remove('hidden'); 
+    categorySectionTitle.classList.remove('hidden'); // Show category title
+    
     noResultsMessage.classList.add('hidden'); 
-    backButton.classList.add('hidden');
-    currentCategoryTitle.classList.add('hidden');
     currentView = 'categories';
     currentCategoryId = null;
 
     if (!Array.isArray(filteredCategories) || filteredCategories.length === 0) {
-        noResultsMessage.classList.remove('hidden');
+        if(searchInput.value.length > 0) {
+            noResultsMessage.classList.remove('hidden');
+        }
         return;
     }
 
@@ -169,7 +177,7 @@ function displayCategories(filteredCategories = contentData.categories) {
     });
 }
 
-// Function to handle search logic
+// Function to handle search logic (unchanged)
 function handleSearch() {
     const searchTerm = searchInput.value.toLowerCase();
     clearSearchBtn.style.display = searchTerm.length > 0 ? 'block' : 'none';
@@ -201,7 +209,7 @@ function handleSearch() {
     }
 }
 
-// --- Routing Function ---
+// --- Routing Function (unchanged) ---
 function route() {
     const hash = window.location.hash.substring(1);
     const parts = hash.split('/');
@@ -229,19 +237,21 @@ function route() {
 }
 
 // 4. SET UP event listeners
-// We wrap everything in 'DOMContentLoaded'
 document.addEventListener('DOMContentLoaded', () => {
     
-    // FIX: We ASSIGN the DOM elements *inside* this listener 
-    // to prevent the "Cannot read properties of null" error.
+    // Assigning ALL variables
     contentContainer = document.getElementById('content-container');
     searchInput = document.getElementById('searchInput');
     clearSearchBtn = document.getElementById('clearSearchBtn');
     noResultsMessage = document.getElementById('noResultsMessage');
-    backButton = document.getElementById('backButton');
+    
+    dynamicNavBar = document.getElementById('dynamic-nav-bar');
+    backButton = document.getElementById('backButton'); 
     currentCategoryTitle = document.getElementById('currentCategoryTitle');
+    heroSection = document.getElementById('hero-section');
+    categorySectionTitle = document.getElementById('category-section-title'); // NEW Assignment
 
-    // Now we can safely add event listeners
+    // Event listeners
     if (searchInput) {
         searchInput.addEventListener('keyup', handleSearch);
     }
@@ -262,17 +272,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             handleSearch();
             
-            if (currentView === 'subTopics' || currentView === 'projects') {
-                 window.location.hash = '';
-            } else {
-                window.history.pushState(null, '', window.location.pathname);
-                route();
-            }
+            // Explicitly route to home to clear hash
+            window.location.hash = '';
+            route();
         });
     }
 
     // Initial page load
-    // This call is now safe because all variables are assigned
     route();
 });
 
