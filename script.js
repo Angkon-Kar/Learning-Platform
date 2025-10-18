@@ -13,7 +13,7 @@ let currentCategoryTitle;
 let currentView = 'categories';
 let currentCategoryId = null;
 
-// 3. DEFINE all your functions (These are OK)
+// 3. DEFINE all your functions
 
 // Function to display sub-topics within a category
 function displaySubTopics(categoryId, filteredSubTopics = null) {
@@ -76,13 +76,14 @@ function showProjects(filteredProjects = null) {
 // Function to create cards
 function createCard(item, type) {
     const card = document.createElement('div');
-    card.className = "bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-200";
+    // UPDATED CARD STYLING for better aesthetics
+    card.className = "bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border-l-4 border-gray-200 hover:border-blue-500";
 
     if (type === 'category') {
         card.classList.add("cursor-pointer");
         card.innerHTML = `
-            <h3 class="text-xl font-semibold text-gray-900 mb-2">${item.name}</h3>
-            <p class="text-gray-600">${item.description}</p>
+            <h3 class="text-2xl font-bold text-blue-700 mb-3">${item.name}</h3>
+            <p class="text-gray-700 leading-relaxed">${item.description}</p>
         `;
         card.onclick = () => {
             window.location.hash = item.id;
@@ -150,8 +151,6 @@ function createCard(item, type) {
 
 // Function to display categories (initial view)
 function displayCategories(filteredCategories = contentData.categories) {
-    // This line (and the ones below) caused the error 
-    // because noResultsMessage was 'null'
     contentContainer.innerHTML = '';
     noResultsMessage.classList.add('hidden'); 
     backButton.classList.add('hidden');
@@ -233,9 +232,8 @@ function route() {
 // We wrap everything in 'DOMContentLoaded'
 document.addEventListener('DOMContentLoaded', () => {
     
-    // *** THIS IS THE FIX ***
-    // We ASSIGN the variables *inside* this listener
-    // Now we are sure the HTML elements exist!
+    // FIX: We ASSIGN the DOM elements *inside* this listener 
+    // to prevent the "Cannot read properties of null" error.
     contentContainer = document.getElementById('content-container');
     searchInput = document.getElementById('searchInput');
     clearSearchBtn = document.getElementById('clearSearchBtn');
