@@ -1,6 +1,6 @@
 // THIS IS THE NEW LINE!
 // It imports the 'contentData' object from your aggregator file.
-import { contentData } from './data/categories.js';
+import { contentData } from './skill/categories.js';
 
 // All the rest of your code is exactly the same as before
 let currentView = 'categories'; // 'categories', 'subTopics', 'projects', 'meme-motivation'
